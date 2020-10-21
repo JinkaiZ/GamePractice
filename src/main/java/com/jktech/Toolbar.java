@@ -6,10 +6,10 @@ import javafx.scene.control.ToolBar;
 
 public class Toolbar extends ToolBar {
 
-    private MainView mainView;
+    private MainView _mainView;
 
     public Toolbar(MainView mainView){
-        this.mainView = mainView;
+        _mainView = mainView;
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDraw);
         Button erase = new Button("Erase");
@@ -22,17 +22,17 @@ public class Toolbar extends ToolBar {
     }
 
     private void handleErase(ActionEvent actionEvent) {
-        this.mainView.setDrawMode(Simulation.DEAD);
+        _mainView.setDrawMode(Simulation.DEAD);
     }
 
     private void handleDraw(ActionEvent actionEvent) {
-        this.mainView.setDrawMode(Simulation.ALIVE);
+        _mainView.setDrawMode(Simulation.ALIVE);
     }
 
 
     private void handleStep(ActionEvent actionEvent) {
-        this.mainView.getSimulation().step();
-        this.mainView.draw();
+        _mainView.getSimulation().step();
+        _mainView.draw();
     }
 
 

@@ -5,22 +5,22 @@ public class Simulation {
     public static int DEAD = 0;
     public static int ALIVE = 1;
 
-    int width;
-    int height;
-    int[][] board;
+    int _width;
+    int _height;
+    int[][] _board;
 
     public Simulation(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.board = new int[width][height];
+        _width = width;
+        _height = height;
+        _board = new int[width][height];
     }
 
     public void printBoard() {
         System.out.println("---");
-        for (int y = 0; y < height; y++) {
+        for (int y = 0; y < _height; y++) {
             String line = "|";
-            for (int x = 0; x < width; x++) {
-                if (this.board[x][y] == DEAD) {
+            for (int x = 0; x < _width; x++) {
+                if (_board[x][y] == DEAD) {
                     line += ".";
                 } else {
                     line += "*";
@@ -59,30 +59,30 @@ public class Simulation {
 
     //Limit the bound of the board.
    public void setState(int x, int y, int state){
-       if (x < 0 || x >= width) {
+       if (x < 0 || x >= _width) {
            return;
        }
-       if (y < 0 || y >= height) {
+       if (y < 0 || y >= _height) {
            return;
        }
 
-       this.board[x][y] = state;
+       _board[x][y] = state;
 
    }
     public int getState(int x, int y) {
-        if (x < 0 || x >= width) {
+        if (x < 0 || x >= _width) {
             return DEAD;
         }
-        if (y < 0 || y >= height) {
+        if (y < 0 || y >= _height) {
             return DEAD;
         }
-        return this.board[x][y];
+        return _board[x][y];
     }
 
     public void step() {
-        int[][] newBorad = new int[width][height];
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
+        int[][] newBorad = new int[_width][_height];
+        for (int y = 0; y < _height; y++) {
+            for (int x = 0; x < _width; x++) {
                 int aliveNeighbours = countAliveNeighbours(x, y);
                 if (getState(x, y) == ALIVE) {
                     if (aliveNeighbours < 2) {
@@ -101,7 +101,7 @@ public class Simulation {
             }
 
         }
-        this.board = newBorad;
+        _board = newBorad;
     }
 
     public static void main(String[] args) {
