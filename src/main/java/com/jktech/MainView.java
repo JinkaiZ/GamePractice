@@ -14,7 +14,6 @@ import javafx.scene.transform.NonInvertibleTransformException;
 
 public class MainView extends VBox {
 
-    private Button stepButton;
     private Canvas canvas;
     private Affine affine;
     private Simulation simulation;
@@ -23,18 +22,16 @@ public class MainView extends VBox {
 
     public MainView(){
 
-        stepButton = new Button("step");
-        stepButton.setOnAction(actionEvent -> {
-            simulation.step();
-            draw();
-        });
+
         canvas = new Canvas(400,400);
         canvas.setOnMousePressed(this::handleDraw);
         canvas.setOnMouseDragged(this::handleDraw);
 
         this.setOnKeyPressed(this::OnKeyPressed);
 
-        this.getChildren().addAll(stepButton,canvas);
+        Toolbar toolbar = new Toolbar(this);
+        this.getChildren().addAll(toolbar,canvas);
+
         affine = new Affine();
         affine.appendScale(400/10f, 400/10f);
         simulation = new Simulation(10,10);
@@ -43,11 +40,11 @@ public class MainView extends VBox {
 
     private void OnKeyPressed(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.D){
-            drawMode = 1;
+            drawMode = Simulation.ALIVE;
             System.out.println("Draw mode");
         }
         else if(keyEvent.getCode() == KeyCode.E){
-            drawMode = 0;
+            drawMode = Simulation.DEAD;
             System.out.println("erase mode");
         }
     }
@@ -82,7 +79,7 @@ public class MainView extends VBox {
         g.setFill(Color.BLACK);
         for (int x = 0; x < simulation.width; x++) {
             for (int y = 0; y < simulation.height; y++) {
-                if(simulation.getState(x,y) == 1) {
+                if(simulation.getState(x,y) == Simulation.ALIVE) {
                     g.fillRect(x, y, 1, 1);
                 }
 
@@ -101,5 +98,13 @@ public class MainView extends VBox {
 
         }
 
+    }
+
+    public Simulation getSimulation() {
+        return this.simulation;
+    }
+
+    public void setDrawMode(int newDrawMode) {
+        this.drawMode = newDrawMode;
     }
 }
